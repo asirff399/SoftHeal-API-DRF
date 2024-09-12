@@ -12,8 +12,8 @@ router.register('donation',DonationViewset)
 urlpatterns = [
     path('', include(router.urls)),
     path('donate/<int:post_id>', DonationAPIView.as_view(),name='donate'),
-    path('post/', PostList.as_view(),name='post_list'),
-    path('post/<int:pk>/', PostDetails.as_view(),name='post_details'),
+    path('add/', PostList.as_view(),name='post_list'),
+    path('details/<int:pk>/', PostDetails.as_view(),name='post_details'),
 ]
 
 
