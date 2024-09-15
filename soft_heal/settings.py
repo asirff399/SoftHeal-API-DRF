@@ -98,7 +98,7 @@ REST_FRAMEWORK = {
    
 }
 
-# CSRF_TRUSTED_ORIGINS = ['https://exipet-drf-api.onrender.com','https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://softheal-api-drf.onrender.com','https://*.127.0.0.1']
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

@@ -16,7 +16,7 @@ class Post(models.Model):
     image = models.CharField(max_length=200)    
     created_on = models.DateTimeField(auto_now_add=True,null=True)
     target = models.IntegerField()
-    collected = models.IntegerField()
+    collected = models.IntegerField(default=0)
     post_type = models.ForeignKey(PostType,on_delete=models.CASCADE) 
 
 
