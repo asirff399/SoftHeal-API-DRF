@@ -2,7 +2,8 @@ from rest_framework import serializers
 from .models import Post,PostType,Donation
 
 class PostSerializer(serializers.ModelSerializer):
-    # post_type = serializers.SlugRelatedField(slug_field='name', queryset=PostType.objects.all())
+    post_type = serializers.SlugRelatedField(slug_field='name', queryset=PostType.objects.all())
+
     class Meta:
         model = Post
         fields = ['id','name','description','image','target','collected','post_type','created_on',]
