@@ -1,7 +1,7 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from rest_framework import viewsets
 from .models import CustomUser,Review
-from .serializers import CustomUserSerializer,ReviewSerializer,UserLoginSerializer,RegistrationSerializer,PasswordChangeSerializer
+from .serializers import CustomUserSerializer,ReviewSerializer,UserLoginSerializer,RegistrationSerializer,PasswordChangeSerializer,UserSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.tokens import default_token_generator
@@ -15,10 +15,37 @@ from django.contrib import messages
 # for sending email
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-# Create your views here.
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import filters, pagination
+# Create your views here.
+
+class UserProfileUpdateApiView(APIView):
+    # permission_classes = [IsAuthenticated]
+
+    def put(self,request,*args, **kwargs):
+        user = request.user
+        custom_user = get_object_or_404(CustomUser,user=user)
+
+        user_serializer = UserSerializer(user,data=request.data.get('user'))
+        custom_user_serializer = CustomUserSerializer(custom_user,data=request.data.get('custom_user'))
+
+        if user_serializer.is_valid() and custom_user_serializer.is_valid():
+            user_serializer.save()
+            custom_user_serializer.save()
+            return Response(
+                {
+                    "user": user_serializer.data,
+                    "custom_user": custom_user_serializer.data
+                }, status=status.HTTP_200_OK
+            )
+        return Response(
+            {
+                "user_errors": user_serializer.errors,
+                "custom_user_errors": custom_user_serializer.errors
+            },status=status.HTTP_400_BAD_REQUEST
+        )
+
 
 class CustomUserViewset(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
