@@ -1,12 +1,16 @@
 from django.urls import path,include
 from rest_framework.routers import DefaultRouter
 from .views import CustomUserViewset,ReviewViewSet,UserRegistrationApiView,UserLoginApiView,UserLogoutApiView,activate,PasswordChangeView,ReviewCreateView,UserProfileUpdateApiView
-
+from django.http import HttpResponseRedirect
 
 router = DefaultRouter()
 router.register('list',CustomUserViewset)
 router.register('review',ReviewViewSet)
 
+def external_redirect_view(request):
+    return HttpResponseRedirect('http://127.0.0.1:5500/login.html')
+def reg_external_redirect_view(request):
+    return HttpResponseRedirect('http://127.0.0.1:5500/login.html')
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -17,4 +21,6 @@ urlpatterns = [
     path('profile/pass_change/', PasswordChangeView.as_view(),name='pass_change'),
     path('create_review/', ReviewCreateView.as_view(),name='create_review'),
     path('active/<uid64>/<token>/', activate, name = 'activate'),
+    path('external-login/', external_redirect_view, name='external-login'),
+    path('external-register/', reg_external_redirect_view, name='external-register'),
 ]

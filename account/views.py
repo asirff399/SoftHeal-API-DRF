@@ -11,8 +11,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
 from rest_framework.authtoken.models import Token
 from rest_framework import status
-from django.contrib import messages
-from django.http import HttpResponseRedirect
 # for sending email
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
@@ -107,9 +105,9 @@ def activate(request,uid64,token):
     if user is not None and default_token_generator.check_token(user,token):
         user.is_active=True
         user.save()
-        return HttpResponseRedirect('<script>window.location.href="http://127.0.0.1:5500/login.html";</script>')
+        return redirect('external-login')
     else:
-        return HttpResponseRedirect('<script>window.location.href="http://127.0.0.1:5500/login.html";</script>')
+        return redirect('external-register')
 
 class UserLoginApiView(APIView):
     def post(self,request):
