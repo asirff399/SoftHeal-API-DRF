@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate,login,logout,update_session_auth_ha
 from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 # for sending email
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
@@ -106,9 +107,10 @@ def activate(request,uid64,token):
     if user is not None and default_token_generator.check_token(user,token):
         user.is_active=True
         user.save()
-        return redirect('http://127.0.0.1:5500/login.html')
+        return HttpResponseRedirect('http://127.0.0.1:5500/login.html')
     else:
-        return redirect('http://127.0.0.1:5500/registration.html')
+        return HttpResponseRedirect('http://127.0.0.1:5500/registration.html')
+
 
 class UserLoginApiView(APIView):
     def post(self,request):
